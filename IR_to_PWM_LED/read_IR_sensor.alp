@@ -4,7 +4,8 @@
     <src top="true">au_top.v</src>
     <src>pwm.v</src>
     <src>xadc_wiz_0.v</src>
-    <constraint>io.acf</constraint>
+    <src>levelMeter.v</src>
     <constraint lib="true">au.xdc</constraint>
+    <constraint>io.acf</constraint>
   </files>
 </project>

@@ -15,17 +15,7 @@ module au_top(
 
     assign channel={8'b00000011};
     
-    genvar i;
-    generate
-      for (i = 0; i < 8; i=i+1) begin: pwm_gen_loop
-      pwm #(.CTR_LEN(8)) pwm (
-        .clk(clk),
-        .rst(rst),
-        .compare(XADC_out[15:8]),
-        .pwm(led[i])
-      );
-      end
-    endgenerate
+   
 
     xadc_wiz_0 xadc_wiz_0
           (.daddr_in(channel),
@@ -43,7 +33,22 @@ module au_top(
            .vp_in(vp_in),             // Dedicated Analog Input Pair
            .vn_in(vn_in));   
   
-    always @(posedge clk) if(drdy==1) XADC_bytes=XADC_out;  // I don't strictly speaking know 
-                                                            // if this line is necessary
+    always @(posedge clk) begin
+     if(drdy==1) begin XADC_bytes=XADC_out; end // I don't strictly speaking know 
+     end
+    always @(*) begin                                            // if this line is necessary
+    genvar i;
+    generate
+      for (i = 0; i < 8; i=i+1) begin: pwm_gen_loop
+      pwm #(.CTR_LEN(8)) pwm (
+        .clk(clk),
+        .rst(rst),
+        .compare(XADC_out[15:8]),
+        .pwm(led[i])
+      );
+      end
+    endgenerate
+                                                            
+     end
   
 endmodule
